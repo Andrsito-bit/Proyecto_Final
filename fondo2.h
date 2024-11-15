@@ -17,6 +17,7 @@ private:
 
 public:
     fondo2();
+
 };
 
 #endif // FONDO2_H

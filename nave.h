@@ -28,9 +28,7 @@ public:
     nave();
     void keyPressEvent(QKeyEvent *event) override;
     void movimiento(int dx, int dy);
-
     void contador_vidas();
-
     void setSprite(int dir);
 };
 

@@ -8,3 +8,4 @@ fondo::fondo()
     setPixmap(hojaSprites.scaled(800, 600, Qt::KeepAspectRatioByExpanding, Qt::SmoothTransformation));
     setPos(0, 0); // Coloca el fondo en la esquina superior izquierda
 }
+
