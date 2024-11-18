@@ -1,6 +1,5 @@
-// enemigo.cpp
 #include "enemigo.h"
-#include "proyectil1.h" // Incluimos la clase Proyectil
+#include "proyectil1.h"
 #include <QGraphicsScene>
 
 Enemigo::Enemigo() {
@@ -16,7 +15,7 @@ Enemigo::Enemigo() {
 
     timerDisparo = new QTimer(this);
     connect(timerDisparo, &QTimer::timeout, this, &Enemigo::disparar);
-    timerDisparo->start(700); // Dispara cada 2 segundos
+    timerDisparo->start(800);
 }
 
 void Enemigo::setSprite() {
@@ -24,14 +23,19 @@ void Enemigo::setSprite() {
     spriteX = 150 * cont;
     QPixmap sprite = hojaSprites.copy(spriteX, spriteY, spriteAncho, spriteAlto);
     setPixmap(sprite.scaled(300,300));
-    cont++;
-    if (cont == 8) { cont = 0; }
+    cont = (cont + 1) % 8;
 }
 
 void Enemigo::disparar() {
-    Proyectil *proyectil = new Proyectil(x()+spriteAncho, y() + spriteAlto / 2, -5, -10); // Dispara hacia la izquierda y ligeramente hacia arriba
-    scene()->addItem(proyectil); // Añadir el proyectil a la escena
+    Proyectil *proyectil = new Proyectil(x() + spriteAncho, y() + spriteAlto / 2, -5, -10);
+    scene()->addItem(proyectil);
+    Proyectil *proyectil2 = new Proyectil(x() + spriteAncho, y() + spriteAlto / 2, 5, -10);
+    scene()->addItem(proyectil2);
+}
 
-    Proyectil *proyectil2 = new Proyectil(x()+spriteAncho, y() + spriteAlto / 2, 5, -10); // Dispara hacia la izquierda y ligeramente hacia arriba
-    scene()->addItem(proyectil2); // Añadir el proyectil a la escena
+void Enemigo::reducirVida(int dano) {
+    vida -= dano;
+    if (vida <= 0) {
+        emit enemigoMuerto(); // Notifica que el enemigo ha muerto
+    }
 }

@@ -1,4 +1,3 @@
-// enemigo.h
 #ifndef ENEMIGO_H
 #define ENEMIGO_H
 
@@ -7,8 +6,7 @@
 #include "proyectil1.h" // Incluimos la clase Proyectil
 #include <QTimer>
 
-class Enemigo: public QObject, public QGraphicsPixmapItem
-{
+class Enemigo : public QObject, public QGraphicsPixmapItem {
     Q_OBJECT
 
 private:
@@ -19,18 +17,21 @@ private:
     QPixmap sprite;
     QPixmap hojaSprites;
     int cont = 0;
-    int vida = 5;
-    int movimiento_x = 0;
+    int vida = 10; // Vida del enemigo
     QTimer *timerMov;
-    QTimer *timerDisparo; // Nuevo temporizador para disparos
+    QTimer *timerDisparo;
 
 public:
     Enemigo();
     void setSprite();
-    void vidas();
+    void reducirVida(int dano); // Nuevo método para recibir daño
+
+signals:
+    void enemigoMuerto();
 
 public slots:
-    void disparar(); // Nuevo slot para disparar proyectiles
+    void disparar();
 };
 
 #endif // ENEMIGO_H
+

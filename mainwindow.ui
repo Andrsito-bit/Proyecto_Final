@@ -18,14 +18,20 @@
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>100</y>
-      <width>731</width>
+      <y>320</y>
+      <width>201</width>
       <height>331</height>
      </rect>
     </property>
     <layout class="QVBoxLayout" name="verticalLayout">
      <item>
       <widget class="QPushButton" name="pushButton">
+       <property name="font">
+        <font>
+         <family>Terminal</family>
+         <pointsize>11</pointsize>
+        </font>
+       </property>
        <property name="text">
         <string>Nivel 1</string>
        </property>
@@ -33,6 +39,12 @@
      </item>
      <item>
       <widget class="QPushButton" name="pushButton_2">
+       <property name="font">
+        <font>
+         <family>Terminal</family>
+         <pointsize>11</pointsize>
+        </font>
+       </property>
        <property name="text">
         <string>Nivel 2</string>
        </property>

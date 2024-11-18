@@ -2,15 +2,10 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include <QGraphicsView>
 #include <QGraphicsScene>
 #include <QTimer>
-#include "QGraphicsPixmapItem"
+#include "jugador.h"
 #include "enemigo.h"
-#include "QGraphicsRectItem"
-#include "fondo.h"
-#include "fondo2.h"
-#include "nave.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -25,19 +20,20 @@ public:
     ~MainWindow();
 
 private slots:
-    void on_pushButton_2_clicked();
     void mov_enem();
+    void limpiarEscena();
     void on_pushButton_clicked();
+    void on_pushButton_2_clicked();
+    void volverSeleccionNiveles();
+
 
 private:
-    void limpiarEscena();  // Nueva función para limpiar la escena
-
     Ui::MainWindow *ui;
-    QGraphicsView *view;
     QGraphicsScene *escena;
     QTimer *timer;
     int cont;
     Enemigo *enem1;
+    Jugador *jug1; // Guardar el puntero a Jugador para conectar señales
 };
-#endif // MAINWINDOW_H
 
+#endif // MAINWINDOW_H

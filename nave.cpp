@@ -1,35 +1,47 @@
 #include "nave.h"
-#include "QKeyEvent"
+#include "asteroide.h"
+#include "bala.h"
+#include <QKeyEvent>
+#include <QGraphicsScene>
 
-nave::nave()
-{
+Nave::Nave() {
     x = 200;
     y = 200;
-    setFlag(QGraphicsItem::ItemIsFocusable);
+    vidas = 5;
     hojaSprites.load(":/ship.png");
-    sprite = hojaSprites.copy(spriteX, spriteY, spriteAncho, spriteAlto);
+    QPixmap sprite = hojaSprites.copy(spriteX, spriteY, spriteAncho, spriteAlto);
     setPixmap(sprite.scaled(80, 80));
     setPos(x, y);
+
+    setFlag(QGraphicsItem::ItemIsFocusable); // Hacer que la nave sea focuseable
+    setFocus(); // Asignar el foco a la nave
+
+    // Temporizador para colisiones
+    QTimer *timerColisiones = new QTimer(this);
+    connect(timerColisiones, &QTimer::timeout, this, &Nave::detectarColisiones);
+    timerColisiones->start(50);
 }
 
-void nave::keyPressEvent(QKeyEvent *event)
-{
-    switch(event->key())
-    {
+Nave::~Nave() {
+    // Destructor explícito
+}
+
+void Nave::keyPressEvent(QKeyEvent *event) {
+    switch (event->key()) {
     case Qt::Key_A:
-        movimiento(-5, 0);
+        movimiento(-20, 0);
         setSprite(0);
         break;
     case Qt::Key_D:
-        movimiento(5, 0);
+        movimiento(20, 0);
         setSprite(0);
         break;
     case Qt::Key_W:
-        movimiento(0, -5);
+        movimiento(0, -20);
         setSprite(0);
         break;
     case Qt::Key_S:
-        movimiento(0, 5);
+        movimiento(0, 20);
         setSprite(0);
         break;
     default:
@@ -37,7 +49,9 @@ void nave::keyPressEvent(QKeyEvent *event)
     }
 }
 
-void nave::movimiento(int dx, int dy)
+
+
+void Nave::movimiento(int dx, int dy)
 {
     // Lógica de límites ajustada
     x = qMax(0.0, qMin(784.0, x + dx));
@@ -45,11 +59,33 @@ void nave::movimiento(int dx, int dy)
     setPos(x, y);
 }
 
-void nave::setSprite(int dir)
-{
+
+
+
+
+
+
+void Nave::setSprite(int dir) {
     spriteY = dir;
     spriteX = 16 * cont;
     QPixmap sprite = hojaSprites.copy(spriteX, spriteY, spriteAncho, spriteAlto);
     setPixmap(sprite.scaled(80, 80));
-    cont = (cont + 1) % 5; // Animación cíclica
+    cont = (cont + 1) % 5;
 }
+
+void Nave::detectarColisiones() {
+    QList<QGraphicsItem *> itemsColisionados = collidingItems();
+    for (auto item : itemsColisionados) {
+        if (dynamic_cast<Asteroide *>(item)) {
+            recibirDanio(1);
+            break;
+        }
+        if (dynamic_cast<Bala *>(item)) {
+            recibirDanio(1);
+            scene()->removeItem(item);
+            delete item;
+            break;
+        }
+    }
+}
+

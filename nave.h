@@ -1,35 +1,27 @@
 #ifndef NAVE_H
 #define NAVE_H
 
-#include "qobject.h"
-#include "QGraphicsPixmapItem"
+#include "protagonista.h"
 
-
-class nave : public QObject, public QGraphicsPixmapItem
-{
+class Nave : public Protagonista {
     Q_OBJECT
 
 private:
-
-    qreal x =200;
-    qreal y =200;
     int spriteX = 0;
     int spriteY = 0;
     int spriteAncho = 16;
     int spriteAlto = 24;
-    QPixmap sprite;
-    QPixmap hojaSprites;
     int cont = 0;
-    int vidas = 5;
-    QTimer *timerMov;
-
 
 public:
-    nave();
+    Nave();
+    ~Nave();
     void keyPressEvent(QKeyEvent *event) override;
-    void movimiento(int dx, int dy);
-    void contador_vidas();
     void setSprite(int dir);
+    void movimiento(int dx,int dy);
+
+public slots:
+    void detectarColisiones();
 };
 
 #endif // NAVE_H
